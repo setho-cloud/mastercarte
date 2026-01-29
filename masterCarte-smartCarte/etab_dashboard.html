@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MasterCarte — Établissements</title>
+    <link rel="stylesheet" href="catalogue.css" />
+    <link rel="stylesheet" href="etab_dashboard.css" />
+</head>
+<body>
+
+  <div class="master-header-fixed">
+    <header class="catalogue-topbar">
+        <div class="catalogue-topbar-inner">
+            <button id="btnBack" class="btn-back" type="button" aria-label="Retour">
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                    <path fill="currentColor" d="M7.8 6.4 2.2 12l5.6 5.6 1.4-1.4L6.9 13H14a6 6 0 0 1 6 6v-2a8 8 0 0 0-8-8H6.9l2.3-2.2-1.4-1.4Z"/>
+                </svg>
+            </button>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+                <h1 class="catalogue-title" style="margin: 0;">Établissements</h1>
+                <button id="btnOpenCreate" type="button" 
+                  onclick="openCreateModal()"
+                  style="background: none; border: none; color: #ffffff; font-size: 1.8rem; font-weight: 200; cursor: pointer; padding: 0; line-height: 1; display: flex; align-items: center;">
+                  +
+                </button>
+            </div>
+            
+            <button id="btnSync" class="btn-sync" type="button" aria-label="Actualiser">
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                    <path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    
+        <section class="catalogue-toolbar">
+            <div class="search-wrap">
+                <span class="search-ico">🔎</span>
+                <input id="searchInput" class="search-input" type="search" placeholder="Rechercher un établissement..." autocomplete="off" />
+            </div>
+
+            <div class="filters-bar">
+                <div class="filter-group-left">
+                    <button id="btnLoc" class="filter-chip" type="button">
+                        <span class="filter-chip-label">Secteur</span>
+                        <span id="locLabel" class="filter-chip-value">Tous</span>
+                        <span class="filter-chip-caret">▾</span>
+                    </button>
+                    <button id="btnType" class="filter-chip" type="button">
+                        <span class="filter-chip-label">Type</span>
+                        <span id="typeLabel" class="filter-chip-value">Tous</span>
+                        <span class="filter-chip-caret">▾</span>
+                    </button>
+                </div>
+
+                <div class="results-center">
+                    <span id="resultsCount">0</span> Résultats
+                </div>
+
+                <div class="filter-group-right">
+                    <div class="segmented">
+                        <button class="seg-btn seg-status is-active" type="button" data-status="actif">Actif</button>
+                        <button class="seg-btn seg-status" type="button" data-status="inactif">Inactif</button>
+                    </div>
+                    <div class="segmented">
+                        <button class="seg-btn seg-timing is-active" type="button" data-timing="all">Tous</button>
+                        <button class="seg-btn seg-timing" type="button" data-timing="open">Ouvert</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="locPanel" class="category-panel" hidden>
+                <button class="cat-item is-selected" type="button" data-loc="all">Tous</button>
+            </div>
+
+            <div id="typePanel" class="category-panel" hidden>
+                <button class="cat-item is-selected" type="button" data-type="all">Tous</button>
+            </div>
+        </section>
+    </div>
+    <main class="etab-container">
+        <div id="etabGrid" class="catalogue-content">
+            <div class="loading-state">Chargement du parc MasterCarte...</div>
+        </div>
+    </main>
+
+    <template id="etabCardTemplate">
+        <div class="etab-card">
+            <div class="etab-card-main">
+                <div class="etab-img-wrap">
+                    <img src="" alt="" class="etab-img" loading="lazy">
+                </div>
+                <div class="etab-info">
+                    <div class="etab-top">
+                        <h2 class="etab-name"></h2>
+                        <span class="etab-status-dot"></span>
+                    </div>
+                    <div class="etab-meta">
+                        <span class="etab-zone"></span>
+                        <span class="etab-dot">•</span>
+                        <span class="etab-category"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="etab-card-actions">
+             <a href="" class="btn-action btn-tel">Appeler</a>
+             <a href="" target="_blank" class="btn-action btn-smart">SmartCarte</a>
+             <button class="btn-action btn-assist">Assistance</button> 
+            </div>
+        </div>
+    </template>
+
+  
+<div id="createEtabModal" class="modal-overlay" onclick="if(event.target == this) closeCreateModal()">
+    <div class="modal-content" style="max-width: 480px; padding: 12px;">
+        
+        <div style="position: relative; text-align: center; margin-bottom: 5px;">
+            <h2 style="color: #ffffff; margin: 0; font-size: 0.85rem; font-weight: 200; letter-spacing: 3px; text-transform: uppercase;">
+                Ajout Partenaire
+            </h2>
+            <button onclick="closeCreateModal()" 
+                    style="position: absolute; right: 0; top: -5px; background:none; border:none; color:#ffffff; cursor:pointer; font-size:1.4rem; font-weight: 200; opacity: 0.5;">
+                &times;
+            </button>
+        </div>
+
+        <div class="modal-separator" style="margin-bottom: 3px; height: 1px; background: rgba(255,255,255,0.1);"></div>
+        
+        <div class="modal-body-fields">
+            
+            <div style="margin-bottom: 3px;">
+                <h3 style="color: #D4AF37; font-size: 0.65rem; letter-spacing: 2px; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">
+                    1. Établissement
+                </h3>
+                <div style="height: 1px; background: #D4AF37; width: 100%; opacity: 0.5;"></div>
+            </div>
+
+            <div style="display: flex; margin-bottom: 3px;">
+                <div class="input-blueprint-group" style="flex: 1; margin-right: 8px;">
+                    <label style="display: block; margin-bottom: 2px;">Nom</label>
+                    <input type="text" id="newEtabName" placeholder="ex: Le Phare..." style="padding: 7px; width: 100%;">
+                </div>
+                <div class="input-blueprint-group" style="flex: 1;">
+                    <label style="display: block; margin-bottom: 2px;">URL Logo</label>
+                    <input type="text" id="newEtabImg" placeholder="https://..." style="padding: 7px; width: 100%;">
+                </div>
+            </div>
+
+            <div style="display: flex; margin-bottom: 3px;">
+                <div class="input-blueprint-group" style="flex: 1; margin-right: 8px;">
+                    <label style="display: block; margin-bottom: 2px;">Catégorie</label>
+                    <select id="newEtabCat" style="padding: 7px; width: 100%; background: #1a1a1a; color: white; border: 1px solid #333; border-radius: 5px;">
+                        <option value="" disabled selected>Type...</option>
+                    </select>
+                </div>
+                <div class="input-blueprint-group" style="flex: 1;">
+                    <label style="display: block; margin-bottom: 2px;">Zone</label>
+                    <select id="newEtabZone" style="padding: 7px; width: 100%; background: #1a1a1a; color: white; border: 1px solid #333; border-radius: 5px;">
+                        <option value="" disabled selected>Secteur...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; margin-bottom: 3px;">
+                <div class="input-blueprint-group" style="flex: 1; margin-right: 8px;">
+                    <label style="display: block; margin-bottom: 2px;">WhatsApp</label>
+                    <input type="tel" id="newGerantTel" placeholder="+241" style="padding: 7px; width: 100%;">
+                </div>
+                <div class="input-blueprint-group" style="flex: 1;">
+                    <label style="display: block; margin-bottom: 2px;">Email Pro</label>
+                    <input type="email" id="newEtabEmail" placeholder="contact@etab.ga" style="padding: 7px; width: 100%;">
+                </div>
+            </div>
+
+            <div class="input-blueprint-group" style="margin-bottom: 3px;">
+                <label style="display: block; margin-bottom: 4px;">Jours de Fermeture</label>
+                <div id="daySelectionWrapper" style="display: flex; flex-wrap: wrap;">
+                    <div class="day-chip" data-day="Lundi" style="padding: 10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">Lun</div>
+                    <div class="day-chip" data-day="Mardi" style="padding: 10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">Mar</div>
+                    <div class="day-chip" data-day="Mercredi" style="padding:10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">Mer</div>
+                    <div class="day-chip" data-day="Jeudi" style="padding: 10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">Jeu</div>
+                    <div class="day-chip" data-day="Vendredi" style="padding: 10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">Ven</div>
+                    <div class="day-chip" data-day="Samedi" style="padding: 10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">Sam</div>
+                    <div class="day-chip" data-day="Dimanche" style="padding:10px 17px; font-size: 12px; border: 1px solid #444; cursor: pointer; border-radius: 4px;">Dim</div>
+                </div>
+                <input type="hidden" id="newEtabOff" value="Aucun">
+            </div>
+
+            <div style="margin-bottom: 3px;">
+                <h3 style="color: #D4AF37; font-size: 0.65rem; letter-spacing: 2px; margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">
+                    2. Gérant
+                </h3>
+                <div style="height: 1px; background: #D4AF37; width: 100%; opacity: 0.5;"></div>
+            </div>
+
+            <div style="display: flex; margin-bottom: 5px;">
+                <div class="input-blueprint-group" style="flex: 1; margin-right: 8px;">
+                    <label style="display: block; margin-bottom: 2px;">Prénom</label>
+                    <input type="text" id="newGerantFirstName" placeholder="Marc" style="padding: 7px; width: 100%;">
+                </div>
+                <div class="input-blueprint-group" style="flex: 1;">
+                    <label style="display: block; margin-bottom: 2px;">Nom</label>
+                    <input type="text" id="newGerantLastName" placeholder="MBA" style="padding: 7px; width: 100%;">
+                </div>
+            </div>
+
+            <div style="display: flex;">
+                <div class="input-blueprint-group" style="flex: 1.5;">
+                    <label style="display: block; margin-bottom: 2px;">Email Perso (Connexion)</label>
+                    <input type="email" id="newGerantEmailPerso" placeholder="identifiant@perso.com" style="padding: 7px; width: 100%; border-color: rgba(212, 175, 55, 0.3);">
+                </div>
+                <div style="flex: 0.5; border-left: 3px solid #D4AF37; padding-left: 8px; margin-left: 8px; display: flex; flex-direction: column; justify-content: center;">
+                    <label style="color: #D4AF37; font-size: 10px; margin: 0;">ID SULTAN</label>
+                    <div style="color: #ffffff; font-family: monospace; font-size: 0.9rem;">AUTO-GEN</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 15px;">
+            <button id="btnValidateCreate" 
+                    onclick="submitNewPartner()" 
+                    class="btn-action btn-tel" 
+                    style="width: 80%; height: 38px; border-radius: 8px; font-weight: 900; font-size: 0.8rem;">
+                ACTIVER LE PARTENAIRE
+            </button>
+        </div>
+
+    </div>
+</div>
+    <script src="etab_dashboard.js"></script>
+</body>
+</html>

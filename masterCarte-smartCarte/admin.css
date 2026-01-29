@@ -1,0 +1,555 @@
+/* =====================================================
+   admin.css — MasterCarte Admin Dashboard (COMPLET)
+   ===================================================== */
+
+/* =====================================================
+   RESET & BASE
+   ===================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #000000 0%, #0a1e3f 100%);
+}
+
+/* =====================================================
+   TOP BAR
+   ===================================================== */
+.topbar {
+  background: linear-gradient(135deg, #1b3cff 0%, #0a1e3f 100%);
+  backdrop-filter: blur(6px);
+
+  position: relative;
+  z-index: 5000; /* au-dessus du reste pour le menu utilisateur */
+}
+
+.topbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.user-area {
+  position: relative; /* ancre le menu au bouton ⋯ */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#userName {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.user-menu-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* =====================================================
+   USER MENU (3 points) — popover utilisateur
+   ===================================================== */
+.user-menu-btn.is-open {
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 12px;
+  padding: 6px 10px;
+}
+
+/* Menu popover */
+.user-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 260px;
+
+  background: rgba(255, 255, 255, 0.95);
+  color: #0b1220;
+
+  border-radius: 16px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  padding: 8px;
+  z-index: 9999; /* 🔥 au-dessus des boutons/menu */
+}
+
+/* petite flèche (caret) */
+.user-menu::before {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+
+  background: rgba(255, 255, 255, 0.95);
+  transform: rotate(45deg);
+
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.user-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  border-radius: 12px;
+  font-size: 16px;
+  text-align: left;
+  color: inherit;
+}
+
+.user-menu-item:hover,
+.user-menu-item:focus-visible {
+  background: rgba(0, 0, 0, 0.06);
+  outline: none;
+}
+
+.umi-ico {
+  width: 28px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.user-menu-sep {
+  height: 1px;
+  margin: 6px 8px;
+  background: rgba(0, 0, 0, 0.10);
+}
+
+.user-menu-item.is-danger {
+  color: #b91c1c;
+}
+
+.user-menu-item.is-danger:hover,
+.user-menu-item.is-danger:focus-visible {
+  background: rgba(185, 28, 28, 0.10);
+}
+
+/* =====================================================
+   KPI — CHIFFRES CLÉS (scroll horizontal)
+   ===================================================== */
+.kpi-wrap {
+  max-width: 1400px;
+  margin: 12px auto 0;
+  padding: 0 20px;
+}
+
+.kpi-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.kpi-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+}
+
+.kpi-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+/* --- ligne scrollable --- */
+.kpi-row {
+  display: flex;
+  gap: 12px;
+  padding: 6px 2px;
+
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.kpi-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- cartes KPI --- */
+.kpi-card {
+  min-width: 240px;
+  padding: 12px 14px;
+
+  background: rgba(14, 14, 14, 0.9);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}
+
+.kpi-meta {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+/* =====================================================
+   MENU HORIZONTAL (boutons scrollables)
+   ===================================================== */
+.menu-wrapper {
+  position: relative;
+  max-width: 98%;
+  margin: 6px auto 0;
+  padding: 6px 40px;
+}
+
+.menu-scroll {
+  display: flex;
+  gap: 12px;
+  padding: 4px 2px;
+
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.menu-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- boutons menu --- */
+.menu-item {
+  min-width: 180px;
+  height: 44px;
+  padding: 0 14px;
+
+  border-radius: 12px;
+  border: none;
+  background: #0e0e0e;
+  color: #ffffff;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.menu-item:hover {
+  background: #151515;
+  transform: translateY(-1px);
+}
+
+.menu-item.active {
+  background: linear-gradient(135deg, #1b3cff 0%, #0a1e3f 100%);
+  box-shadow:
+    0 0 0 1px rgba(27, 60, 255, 0.55),
+    0 8px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* =====================================================
+   ACCESSIBILITÉ
+   ===================================================== */
+.menu-item:focus-visible,
+.user-menu-btn:focus-visible,
+.nav-arrow:focus-visible,
+.est-row:focus-visible {
+  outline: 2px solid rgba(27, 60, 255, 0.85);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   FLÈCHES MENU (desktop)
+   ===================================================== */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.nav-arrow:hover {
+  background: rgba(0, 0, 0, 0.85);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.nav-arrow.left  { left: 6px; }
+.nav-arrow.right { right: 6px; }
+
+/* =====================================================
+   CONTENU
+   ===================================================== */
+.content {
+  max-width: 1400px;
+  margin: 28px auto;
+  padding: 0 20px;
+}
+
+/* =====================================================
+   CLASSEMENTS — 3 PANELS
+   ===================================================== */
+
+/* --- structure desktop (3 colonnes) --- */
+.dash-sections {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+/* --- panel générique --- */
+.panel {
+  margin-top: 16px;
+  background: rgba(14, 14, 14, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.panel-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(135deg, #1b3cff 0%, #0a1e3f 100%);
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+}
+
+/* =====================================================
+   LISTE ÉTABLISSEMENTS (scroll vertical interne)
+   ===================================================== */
+.est-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.est-row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.est-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.est-row + .est-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.est-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.est-main { min-width: 0; }
+
+.est-name {
+  font-size: 0.95rem;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.est-sub {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+  display: flex;
+  gap: 8px;
+}
+
+.est-time {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* =====================================================
+   MOBILE — comportements scroll
+   ===================================================== */
+@media (max-width: 768px) {
+
+  .nav-arrow { display: none; }
+
+  /* KPI et menu restent scrollables horizontalement */
+  .kpi-wrap { padding: 0 12px; }
+  .kpi-card { min-width: 220px; }
+
+  .menu-wrapper {
+    padding: 6px 0;
+    max-width: 100%;
+  }
+
+  .menu-scroll {
+    gap: 10px;
+    padding: 6px 12px;
+  }
+
+  .menu-item {
+    min-width: 170px;
+    height: 48px;
+    padding: 0 16px;
+    font-size: 0.92rem;
+    border-radius: 14px;
+  }
+
+  /* --- USER MENU mobile : plus compact (anti-débordement) --- */
+  .user-menu {
+    width: min(220px, calc(100vw - 24px));
+    right: 0;
+    top: calc(100% + 8px);
+    border-radius: 14px;
+    padding: 6px;
+  }
+
+  .user-menu::before {
+    right: 14px;
+    width: 14px;
+    height: 14px;
+    top: -7px;
+  }
+
+  .user-menu-item {
+    padding: 10px 10px;
+    gap: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .umi-ico {
+    width: 24px;
+    font-size: 17px;
+  }
+
+  /* --- carrousel horizontal entre panels --- */
+  .dash-sections {
+    display: flex;
+    gap: 0; /* Ajusté à 0 pour la précision du pager */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .dash-sections::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dash-sections .panel {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    margin-top: 0;
+  }
+
+  /* --- scroll vertical des 10 éléments --- */
+  .panel .est-list {
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* --- rows compactes --- */
+  .est-row {
+    grid-template-columns: 44px 1fr;
+    grid-template-areas:
+      "avatar main"
+      "avatar time";
+    row-gap: 6px;
+  }
+}
+
+/* =====================================================
+   PAGER (3 points) — mobile uniquement
+   ===================================================== */
+.pager {
+  display: none;
+}
+
+.dot-btn {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.28);
+  cursor: pointer; /* Ajouté pour l'interaction */
+  padding: 0;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.dot-btn.is-active {
+  background: rgba(255,255,255,0.72);
+  transform: scale(1.25);
+}
+
+@media (max-width: 768px) {
+  .pager {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 0 2px;
+  }
+}

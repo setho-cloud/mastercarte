@@ -1,0 +1,212 @@
+/* --- RESET & BASE --- */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+
+body {
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #ffffff;
+    background: linear-gradient(135deg, #000000 0%, #0a1e3f 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+/* --- BLOC FIXE NAVIGATION --- */
+.master-header-fixed {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 2000;
+    background: linear-gradient(135deg, #000000 0%, #0a1e3f 100%);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+.catalogue-topbar { background: linear-gradient(135deg, #1b3cff 0%, #0a1e3f 100%); }
+.catalogue-topbar-inner {
+    max-width: 1400px; margin: 0 auto; padding: 10px 14px;
+    display: grid; grid-template-columns: 44px 1fr 44px;
+    align-items: center; gap: 10px;
+}
+.catalogue-title { margin: 0; text-align: center; font-size: 1.15rem; font-weight: 700; text-transform: uppercase; }
+.btn-back, .btn-menu {
+    width: 44px; height: 44px; border-radius: 14px; border: none;
+    display: inline-grid; place-items: center;
+    background: rgba(0, 0, 0, 0.35); color: #ffffff; cursor: pointer;
+}
+
+/* --- NAVIGATION CATÉGORIES --- */
+.category-scroll-container { margin: 10px -16px; padding: 4px 0; overflow-x: auto; scrollbar-width: none; }
+.category-scroll-inner { display: inline-flex; padding: 0 16px; gap: 12px; }
+.cat-btn {
+    min-width: 125px; height: 42px; padding: 0 15px; border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1); background: #0e0e0e; color: #ffffff;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+}
+.cat-btn.is-active { background: linear-gradient(135deg, #1b3cff 0%, #0a1e3f 100%); border-color: rgba(255, 255, 255, 0.3); }
+
+/* --- RECHERCHE --- */
+.search-wrap { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 16px; background: rgba(14, 14, 14, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); margin: 0 16px; }
+.search-input { width: 100%; border: none; outline: none; background: transparent; color: #ffffff; }
+
+/* --- GRILLE 2/4 --- */
+.catalogue-content { margin-top: 195px; padding: 20px 16px 40px; max-width: 1400px; margin-left: auto; margin-right: auto; }
+.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; }
+@media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* --- CARTE PRODUIT --- */
+.product-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* LE NOM AU DESSUS DE L'IMAGE */
+.product-header {
+    padding: 12px 10px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.product-name {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: capitalize;
+}
+
+.product-vol {
+    display: block;
+    font-size: 0.7rem;
+    color: #1b3cff; /* Bleu MasterCarte pour le volume */
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+.product-footer {
+    padding: 12px 10px;
+    text-align: center;
+}
+
+.product-cost {
+    display: block;
+    font-size: 0.65rem;
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.product-price {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 2px;
+}
+
+/* ============================================================================
+   💎 MODULE WIFI SULTAN — BLACK & GOLD EDITION
+   ============================================================================ */
+
+/* Conteneur principal : Centrage horizontal total sous la pub */
+#wifiSection.wifi-container-sultan {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Milieu de page */
+    align-items: center;
+    padding: 40px 0 100px 0; /* Respiration basse */
+    background: transparent;
+}
+
+/* Le bouton Badge (ID btnGetWifi) */
+#btnGetWifi.wifi-black-badge {
+    background: #000000;
+    color: #FFFFFF;
+    border: 1.5px solid #D4AF37; /* Bordure dorée */
+    border-radius: 50px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease;
+    outline: none;
+    font-family: inherit;
+}
+
+#btnGetWifi.wifi-black-badge:active {
+    transform: scale(0.95);
+    background: #111;
+}
+
+/* Labels et Valeurs (Classes & ID) */
+.wifi-label {
+    font-size: 0.65rem;
+    color: #D4AF37; /* Or Sultan */
+    letter-spacing: 2px;
+    font-weight: 900;
+}
+
+#wifiNetName.wifi-ssid {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.wifi-divider {
+    color: #444;
+    font-weight: 100;
+}
+
+#wifiPassVal.wifi-pass {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* L'icône Copier */
+.icon-copy-white {
+    color: #D4AF37; /* Icône raccord avec la bordure */
+    display: flex;
+    align-items: center;
+}
+
+/* Toast de confirmation (Utilitaire JS) */
+.wifi-toast {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #D4AF37;
+    border: 1px solid #D4AF37;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 0.8rem;
+    z-index: 100000;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}

@@ -1,0 +1,748 @@
+/* ============================================================
+    🛡️ MASTERCARTE DESKTOP - VERSION FINALE (V3.32)
+    Unification Totale : Header V3.1 & Collage Millimétré
+    Optimisation : Refresh Animé & Centrage Boutons
+   ============================================================ */
+
+/* ------------------------------------------------------------
+    1. RESET & BASES HTML
+    Initialisation des marges, tailles et polices système.
+   ------------------------------------------------------------ */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+body {
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: #ffffff;
+    background: #000000;
+    overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------
+    2. SYSTÈME D'ANIMATIONS
+    Gestion de la rotation de l'icône de synchronisation.
+   ------------------------------------------------------------ */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.is-spinning {
+    animation: spin 1s linear infinite;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* ------------------------------------------------------------
+    3. HEADER FIXE
+    Barre supérieure contenant le titre et le sous-titre.
+   ------------------------------------------------------------ */
+.master-header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3000;
+    background: #000000;
+    border-bottom: 1px solid #222;
+    height: 65px;
+    display: flex;
+    align-items: center;
+}
+
+.catalogue-topbar {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.catalogue-topbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Groupe de titres (Nom établissement + Sous-titre) */
+.title-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.catalogue-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.catalogue-subtitle {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #888;
+    margin: 2px 0 0 0;
+    text-transform: capitalize;
+}
+
+/* ------------------------------------------------------------
+    4. TOOLBAR FIXE
+    Conteneur pour la recherche, le menu bleu et les filtres.
+   ------------------------------------------------------------ */
+.catalogue-toolbar {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+    background: transparent;
+    padding: 10px 0 5px 0;
+    border-bottom: 3px solid rgba(37, 99, 235, 0.2);
+    display: block;
+}
+
+/* --- Bloc Recherche --- */
+.search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(14, 14, 14, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top: 30px; /* Espace pour éviter le chevauchement header */
+}
+
+.search-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+/* --- Menu de navigation horizontal --- */
+.menu-wrapper {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.menu-scroll {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 0 15px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.menu-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.menu-item {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #2563eb;
+    border-radius: 10px;
+    padding: 6px 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-item.is-active {
+    background: #2563eb;
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+}
+
+/* --- Boutons icônes --- */
+.btn-back,
+.btn-sync {
+    background: none;
+    border: none;
+    color: #2563eb;
+    cursor: pointer;
+    padding: 8px;
+    transition: 0.2s;
+}
+
+/* --- Zone Filtres & Compteurs --- */
+.filters-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 5px;
+}
+
+.filter-chip {
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+/* ------------------------------------------------------------
+    5. CONTENU PRINCIPAL (Catalogue)
+    Zone d'affichage des grilles de produits.
+   ------------------------------------------------------------ */
+.catalogue-content {
+    padding: 180px 40px 60px !important;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0 !important;
+    position: relative;
+    z-index: 1000;
+}
+
+/* --- Grille de produits --- */
+.products {
+    display: grid !important;
+    /* auto-fit : ajuste le nombre de colonnes et centre si peu d'items */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 1200px;
+    margin: 0 auto !important;
+}
+
+/* --- Titres de sections (VINS, BIÈRES...) --- */
+.cat-title-divider {
+    color: #2563eb;
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: -110px 0 20px 0;
+    border-left: 5px solid #2563eb;
+    padding-left: 12px;
+}
+
+/* ------------------------------------------------------------
+    6. CARTES PRODUITS
+    Style individuel des fiches boissons.
+   ------------------------------------------------------------ */
+.product-card {
+    background: #000;
+    border: 1px solid #222;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 20px;
+    width: 100% !important;
+    max-width: 300px !important;
+    margin: 0 auto !important;
+}
+
+.p-name {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.p-img {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    margin: 5px 0;
+}
+
+/* ------------------------------------------------------------
+    7. ÉDITION DES PRIX
+    Champ de saisie et bouton crayon pour modification.
+   ------------------------------------------------------------ */
+.price-edit-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #050505;
+    border-radius: 8px;
+    padding: 0 10px;
+    border: 1px solid #1a1a1a;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+    width: 90%;
+    margin: 8px auto;
+    height: 34px;
+    position: relative;
+}
+
+.price-display {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -0.5px;
+    line-height: 34px;
+    margin-left:30px;
+}
+
+.currency-label {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: #ef4444;
+    margin-left: 4px;
+    text-transform: uppercase;
+}
+
+.price-input {
+    background: #000;
+    border: 1.5px solid #2563eb;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 900;
+    width: 100%;
+    max-width: 100px;
+    height: 26px;
+    text-align: center;
+    outline: none;
+    appearance: textfield !important;
+}
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.btn-edit-price {
+    background: transparent !important;
+    color: #000000 !important;
+    border: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease;
+}
+
+.btn-edit-price:active {
+    transform: translateY(-50%) scale(0.9);
+}
+
+/* ------------------------------------------------------------
+    8. ACTIONS & STATUTS (STOCKS / RUPTURES)
+    Boutons principaux de gestion des états.
+   ------------------------------------------------------------ */
+.status-action-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 5px;
+    margin-top: auto;
+}
+
+.main-status-btn {
+    flex: 1;
+    padding: 12px 5px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-mkt-toggle {
+    width: 45px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 900;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-mkt-toggle.is-minus { background: #ef4444; }
+.btn-mkt-toggle.is-plus  { background: #10b981; }
+
+.status-green  { background: #10b981; color: #fff; }
+.status-orange { background: #f59e0b; color: #fff; }
+.status-red    { background: #ef4444; color: #fff; }
+
+/* ------------------------------------------------------------
+    9. ÉTATS DE RUPTURE (VISUELS)
+    Grands filtres pour les produits indisponibles.
+   ------------------------------------------------------------ */
+.product-card.is-rupture-total {
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+
+.is-rupture-total .btn-mkt-toggle {
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+    10. CONSOLE SULTAN (CENTRAGE ABSOLU)
+    Zone d'accès aux réglages via le bouton kebab.
+   ------------------------------------------------------------ */
+.settings-action-zone {
+    position: relative;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border-bottom: 1px solid #111;
+}
+
+.btn-kebab-direct {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    padding: 10px;
+    transition: transform 0.2s;
+}
+
+.btn-kebab-direct:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Menu déroulant centré */
+.settings-dropdown {
+    position: fixed;
+    top: 105px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    background: #111;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    z-index: 4000;
+    border: 2px solid white;
+    overflow: hidden;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: #111;
+    border-left: 1px solid #333;
+    border-top: 1px solid #333;
+}
+
+/* ------------------------------------------------------------
+    11. CONTENU DU DROPDOWN
+    Sections intérieures du menu Sultan.
+   ------------------------------------------------------------ */
+.dropdown-section {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #333;
+}
+
+.section-label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+/* Rangée d'inputs (SSID / PASS) */
+.field-row-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.field-row-inline input,
+.dropdown-section textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 1);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.field-row-inline input:focus,
+.dropdown-section textarea:focus {
+    border-color: #2563eb;
+}
+
+.btn-direct-action {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    transition: filter 0.2s, transform 0.1s;
+}
+
+.btn-direct-action:active {
+    transform: scale(0.98);
+}
+
+.btn-direct-action.green { background: #10b981; color: white; }
+.btn-direct-action.blue  { background: #2563eb; color: white; }
+
+.dropdown-divider {
+    height: 1px;
+    background: #222;
+    margin: 0;
+}
+
+.btn-menu-link-bold {
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    padding: 5px 0;
+}
+
+/* ------------------------------------------------------------
+    12. STYLE COMMUN DES BADGES & COMPTEUR
+   ------------------------------------------------------------ */
+.filter-chip,
+.results-center {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* Alertes (PV, RUPTURE, BLOQUÉ) - Rouge par défaut */
+.filter-chip.new-badge-chip,
+.filter-chip.rupture-badge-chip,
+.filter-chip.blocked-badge-chip {
+    background-color: #ef4444 !important;
+    color: white !important;
+    border: none !important;
+    cursor: pointer;
+}
+
+.filter-chip.new-badge-chip.is-active,
+.filter-chip.rupture-badge-chip.is-active,
+.filter-chip.blocked-badge-chip.is-active {
+    background-color: white !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: black !important;
+}
+
+/* En Vente - Vert Emeraude */
+.filter-chip.active-only-chip {
+    background-color: #1a1a1a !important;
+    color: #888 !important;
+    border: 1px solid #333 !important;
+}
+
+.filter-chip.active-only-chip.is-active {
+    background-color: #059669 !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Compteur de résultats */
+.results-center {
+    background: transparent !important;
+    color: #ffffff;
+}
+
+/* ============================================================
+    💻 MODE ORDINATEUR (Desktop)
+    Optimisation pour les écrans larges (> 768px).
+   ============================================================ */
+@media (min-width: 769px) {
+    .search-wrap {
+        display: flex !important;
+        width: 50% !important;
+        margin: 30px auto 20px !important;
+    }
+
+    #btnSortPrice,
+    .results-center {
+        display: inline-flex !important;
+    }
+
+    .filters-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 5px;
+    }
+
+    .results-center .count-text {
+        display: inline;
+        margin-left: 4px;
+        font-weight: 500;
+    }
+}
+
+/* ============================================================
+    📱 MODE PORTABLE (Mobile)
+    Optimisations pour écrans tactiles et petits formats.
+   ============================================================ */
+@media (max-width: 768px) {
+
+    /* Suppression des éléments encombrants */
+    #btnSortPrice,
+    .results-center {
+        display: none !important;
+    }
+
+    /* Réduction des polices (Titres) */
+    .catalogue-title {
+        font-size: 0.75rem !important;
+        letter-spacing: 0px !important;
+    }
+
+    .catalogue-subtitle {
+        font-size: 0.6rem !important;
+    }
+
+    /* Collage millimétré de la recherche et du menu */
+    .search-wrap {
+        width: 92% !important;
+        margin: 30px auto 5px !important;
+        padding: 8px 12px !important;
+    }
+
+    .catalogue-toolbar {
+        top: 25px !important;
+        padding: 0 !important;
+    }
+
+    .menu-scroll {
+        gap: 5px !important;
+        padding: 0 8px !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+    }
+
+    .menu-item {
+        height: 26px !important;
+        padding: 0 8px !important;
+        font-size: 8.5px !important;
+        border-radius: 6px !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+        min-width: 60px;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Barre de filtres horizontale */
+    .filters-bar {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 6px !important;
+        padding: 2px 12px 8px !important;
+        scrollbar-width: none !important;
+        width: 100% !important;
+    }
+
+    .filters-bar::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .filter-chip {
+        height: 24px !important;
+        padding: 0 10px !important;
+        border-radius: 12px !important;
+        font-size: 9px !important;
+        flex-shrink: 0 !important;
+        display: inline-flex !important;
+        white-space: nowrap !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Ajustement de la remontée du contenu */
+    .catalogue-content {
+        padding-top: 140px !important;
+    }
+}

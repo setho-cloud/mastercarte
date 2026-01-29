@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>SmartCarte — Interface Établissement</title>
+  <link rel="stylesheet" href="catalogue.css" />
+  <link rel="stylesheet" href="smartcarte_edit.css" />
+</head>
+
+<body>
+
+  <div class="master-header-fixed">
+    <header class="catalogue-topbar">
+      <div class="catalogue-topbar-inner">
+        <button id="btnBack" class="btn-back" type="button" aria-label="Retour">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M7.8 6.4 2.2 12l5.6 5.6 1.4-1.4L6.9 13H14a6 6 0 0 1 6 6v-2a8 8 0 0 0-8-8H6.9l2.3-2.2-1.4-1.4Z"/></svg>
+        </button>
+        <h1 id="establishmentName" class="catalogue-title">SmartCarte</h1>
+        <button id="btnMenu" class="btn-menu" type="button" aria-label="Menu">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 16a2 2 0 1 1-2 2 2 2 0 0 1 2-2Zm0-6a2 2 0 1 1-2 2 2 2 0 0 1 2-2Zm0-6a2 2 0 1 1-2 2 2 2 0 0 1 2-2Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="catalogue-toolbar">
+      <nav class="category-scroll-container">
+        <div class="category-scroll-inner">
+          <button class="cat-btn is-active" data-cat="all">🏠 Tous</button>
+          <button class="cat-btn" data-cat="bières">🍺 Bières</button>
+          <button class="cat-btn" data-cat="vins">🍷 Vins</button>
+          <button class="cat-btn" data-cat="softs">🥤 Softs</button>
+          <button class="cat-btn" data-cat="cocktails">🍸 Cocktails</button>
+          <button class="cat-btn" data-cat="spiritueux">🥃 Spiritueux</button>
+        </div>
+      </nav>
+      <div class="search-wrap">
+        <span class="search-ico">🔎</span>
+        <input id="searchInput" class="search-input" type="search" placeholder="Rechercher une boisson..." autocomplete="off" />
+      </div>
+    </section>
+  </div>
+
+  <main class="catalogue-content">
+    <div id="productGridTop" class="product-grid"></div>
+
+    <div id="ad-premium-mid" class="ad-container ad-pos-mid">
+      <div class="ad-placeholder">Annonce Partenaire</div>
+    </div>
+
+    <div id="productGridBottom" class="product-grid"></div>
+  </main>
+
+  <footer class="smart-footer">
+    <div id="ad-standard-bottom" class="ad-container ad-pos-bottom">
+      <div class="ad-placeholder">Annonce Partenaire</div>
+    </div>
+    <p class="legal-notice">L'abus d'alcool est dangereux pour la santé.</p>
+    <p class="powered-by">Propulsé par <strong>MasterCarte</strong></p>
+  </footer>
+
+  <script src="smartcarte_edit.js"></script>
+</body>
+</html>

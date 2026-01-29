@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>MasterCarte — Catalogue</title>
+
+  <link rel="stylesheet" href="catalogue.css" />
+</head>
+
+<body>
+
+ <div class="master-header-fixed">
+  
+  <header class="catalogue-topbar">
+  <div class="catalogue-topbar-inner">
+    <button id="btnBack" class="btn-back" type="button" aria-label="Retour">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M7.8 6.4 2.2 12l5.6 5.6 1.4-1.4L6.9 13H14a6 6 0 0 1 6 6v-2a8 8 0 0 0-8-8H6.9l2.3-2.2-1.4-1.4Z"/></svg>
+    </button>
+
+    <div class="catalogue-title-group" style="flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <h1 class="catalogue-title" style="margin: 0; line-height: 1.1;">SmartCarte</h1>
+      <span id="nom-etab-display" style="display: block; font-size: 0.65rem; color: #a1a1aa; font-weight: 400; text-transform: uppercase; margin-top: 2px; letter-spacing: 0.3px; opacity: 0.8;"></span>
+    </div>
+
+    <button id="btnSync" class="btn-sync" type="button" aria-label="Actualiser">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+    </button>
+  </div>
+</header>
+
+  <section class="catalogue-toolbar">
+    <div class="search-wrap">
+      <span class="search-ico">🔎</span>
+      <input id="searchInput" class="search-input" type="search" placeholder="Rechercher..." autocomplete="off" />
+      <button id="btnClearSearch" class="search-clear" type="button" hidden>✕</button>
+    </div>
+
+    <div class="filters-bar">
+      <button id="btnCategory" class="filter-chip" type="button">
+        <span class="filter-chip-label">Catégorie</span>
+        <span id="categoryLabel" class="filter-chip-value">Tous</span>
+        <span class="filter-chip-caret">▾</span>
+      </button>
+
+      <div class="results-center"><span id="resultsCount">0</span> élément(s)</div>
+
+      <button id="btnSortPrice" class="filter-chip" type="button">
+        <span id="sortLabel" style="font-weight: 700;">Prix ↕</span>
+      </button>
+
+      <div class="segmented">
+        <button class="seg-btn is-active" type="button" data-status="actif">Actifs</button>
+        <button class="seg-btn" type="button" data-status="inactif">Inactifs</button>
+      </div>
+    </div>
+
+    <div id="syncStatusWrap" style="padding: 0 15px 10px; margin-top: -5px;">
+      <span id="syncStatusLabel" style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #4ade80; display: flex; align-items: center; gap: 5px;">
+        <span style="display: inline-block; width: 6px; height: 6px; background: currentColor; border-radius: 50%;"></span>
+        Système synchronisé
+      </span>
+    </div>
+
+    <div id="categoryPanel" class="category-panel" hidden>
+       <button class="cat-item is-selected" type="button" data-cat="all">Tous</button>
+       <button class="cat-item" type="button" data-cat="bières">Bières</button>
+      <button class="cat-item" type="button" data-cat="vins">Vins</button>
+      <button class="cat-item" type="button" data-cat="soft">Soft</button>
+    </div>
+  </section>
+</div>
+
+<main class="catalogue-content">
+  </main>
+
+  <script src="catalogue.js"></script>
+
+</body>
+</html>

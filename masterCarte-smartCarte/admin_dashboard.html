@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MasterCarte — Admin</title>
+
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+
+  <!-- ===== BANDEAU TOP ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">MasterCarte</div>
+
+      <div class="user-area">
+        <span id="userName">Utilisateur</span>
+
+        <!-- Bouton 3 points -->
+        <button
+          class="user-menu-btn"
+          id="userMenuBtn"
+          type="button"
+          aria-label="Menu utilisateur"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-controls="userMenu"
+        >
+          ⋯
+        </button>
+
+        <!-- Menu utilisateur (popover) -->
+        <div id="userMenu" class="user-menu" role="menu" aria-label="Menu utilisateur" hidden>
+          <button class="user-menu-item" type="button" role="menuitem" data-action="profile">
+            <span class="umi-ico" aria-hidden="true">👤</span>
+            <span>Mon profil</span>
+          </button>
+
+          <button class="user-menu-item" type="button" role="menuitem" data-action="prefs">
+            <span class="umi-ico" aria-hidden="true">⚙️</span>
+            <span>Préférences</span>
+          </button>
+
+          <button class="user-menu-item" type="button" role="menuitem" data-action="help">
+            <span class="umi-ico" aria-hidden="true">❓</span>
+            <span>Aide &amp; support</span>
+          </button>
+
+          <div class="user-menu-sep" role="separator" aria-hidden="true"></div>
+
+          <button class="user-menu-item is-danger" type="button" role="menuitem" data-action="logout">
+            <span class="umi-ico" aria-hidden="true">⏻</span>
+            <span>Déconnexion</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== KPI (AU-DESSUS DU MENU) ===== -->
+  <section class="kpi-wrap" aria-label="Indicateurs clés">
+    <div class="kpi-row">
+      <article class="kpi-card">
+        <div class="kpi-label">Établissements partenaires</div>
+        <div class="kpi-value" id="kpiPartners">—</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Établissements actifs</div>
+        <div class="kpi-value" id="kpiActive">—</div>
+        <div class="kpi-meta" id="kpiActiveRate">—</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Inscriptions</div>
+        <div class="kpi-value" id="kpiSignups">—</div>
+        <div class="kpi-meta">30 derniers jours</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Consultations SmartCarte</div>
+        <div class="kpi-value" id="kpiViews">—</div>
+        <div class="kpi-meta">30 derniers jours</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== MENU PRINCIPAL ===== -->
+  <nav class="menu-wrapper" aria-label="Menu principal">
+    <button class="nav-arrow left" aria-label="Défiler à gauche">‹</button>
+
+    <div class="menu-scroll">
+      <!-- MODIF: on ajoute un id (recommandé) pour ciblage direct si besoin -->
+      <button class="menu-item" id="btnCatalogue">Catalogue</button>
+      <button class="menu-item" id="btnEtab">Établissement</button>
+      
+      <button class="menu-item">Tableau de bord</button>
+      <button class="menu-item">Pub</button>
+      <button class="menu-item">SmartCarte</button>
+      <button class="menu-item">Notifications</button>
+    </div>
+
+    <button class="nav-arrow right" aria-label="Défiler à droite">›</button>
+  </nav>
+
+  <!-- ===== CONTENU (SOUS LES BOUTONS) ===== -->
+  <!-- Pager mobile (3 points) : recommandé pour indiquer le swipe -->
+  <div class="pager" aria-label="Navigation sections" aria-hidden="true">
+    <button class="dot-btn is-active" type="button" aria-label="Derniers inscrits" aria-current="true"></button>
+    <button class="dot-btn" type="button" aria-label="Top trafic"></button>
+    <button class="dot-btn" type="button" aria-label="Moins de trafic"></button>
+  </div>
+
+  <main class="content">
+    <section class="dash-sections" aria-label="Listes établissements">
+
+      <section class="panel" aria-label="15 derniers établissements inscrits">
+        <header class="panel-head">
+          <h2 class="panel-title">15 derniers inscrits</h2>
+        </header>
+
+        <div class="est-list" role="list">
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="currentColor" d="M4 21V3h10v18H4zm2-2h2v-2H6v2zm0-4h2v-2H6v2zm0-4h2V9H6v2zm0-4h2V5H6v2zm4 12h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2V9h-2v2zm0-4h2V5h-2v2zm6 14v-8h4v8h-4z"/>
+              </svg>
+            </div>
+            <div class="est-main">
+              <div class="est-name">Le Sunset Lounge</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Bar</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 2h</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏢</div>
+            <div class="est-main">
+              <div class="est-name">Hôtel de l'Étoile</div>
+              <div class="est-sub">
+                <span class="est-zone">Port-Gentil</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 5h</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍕</div>
+            <div class="est-main">
+              <div class="est-name">Pizzeria Roma</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 8h</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">☕</div>
+            <div class="est-main">
+              <div class="est-name">Café des Arts</div>
+              <div class="est-sub">
+                <span class="est-zone">Franceville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Café</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 1j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">💃</div>
+            <div class="est-main">
+              <div class="est-name">Le Phoenix Night</div>
+              <div class="est-sub">
+                <span class="est-zone">Owendo</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Club</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 1j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏢</div>
+            <div class="est-main">
+              <div class="est-name">Résidence Onyx</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 2j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍣</div>
+            <div class="est-main">
+              <div class="est-name">Sakura Sushi</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 2j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍹</div>
+            <div class="est-main">
+              <div class="est-name">Sky Bar 241</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Bar</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 3j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🥗</div>
+            <div class="est-main">
+              <div class="est-name">Green Garden</div>
+              <div class="est-sub">
+                <span class="est-zone">Lambaréné</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 3j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏢</div>
+            <div class="est-main">
+              <div class="est-name">Le Palace Oyem</div>
+              <div class="est-sub">
+                <span class="est-zone">Oyem</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 4j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍸</div>
+            <div class="est-main">
+              <div class="est-name">Oxygène Club</div>
+              <div class="est-sub">
+                <span class="est-zone">Port-Gentil</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Club</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 4j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍦</div>
+            <div class="est-main">
+              <div class="est-name">Glace &amp; Co</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Café</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 5j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍔</div>
+            <div class="est-main">
+              <div class="est-name">Big Burger</div>
+              <div class="est-sub">
+                <span class="est-zone">Owendo</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Fast-Food</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 5j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏨</div>
+            <div class="est-main">
+              <div class="est-name">Tropicana Lodge</div>
+              <div class="est-sub">
+                <span class="est-zone">Moanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 6j</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍷</div>
+            <div class="est-main">
+              <div class="est-name">Le Terroir</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">il y a 1 sem.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="15 établissements avec le plus de trafic">
+        <header class="panel-head">
+          <h2 class="panel-title">Top trafic (15)</h2>
+        </header>
+
+        <div class="est-list" role="list">
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🔥</div>
+            <div class="est-main">
+              <div class="est-name">Blue Note</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Lounge</span>
+              </div>
+            </div>
+            <div class="est-time">45 200 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">👑</div>
+            <div class="est-main">
+              <div class="est-name">Radisson Blu</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">38 150 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🎵</div>
+            <div class="est-main">
+              <div class="est-name">Le No Stress</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Bar</span>
+              </div>
+            </div>
+            <div class="est-time">32 400 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍕</div>
+            <div class="est-main">
+              <div class="est-name">L&#39;Atelier des Sens</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">29 800 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🌊</div>
+            <div class="est-main">
+              <div class="est-name">La Voile Rouge</div>
+              <div class="est-sub">
+                <span class="est-zone">Port-Gentil</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Plage</span>
+              </div>
+            </div>
+            <div class="est-time">27 500 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🥩</div>
+            <div class="est-main">
+              <div class="est-name">The Grill House</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">25 100 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🥃</div>
+            <div class="est-main">
+              <div class="est-name">Hemingway Bar</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Bar</span>
+              </div>
+            </div>
+            <div class="est-time">22 900 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🌳</div>
+            <div class="est-main">
+              <div class="est-name">Eden Park</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Loisirs</span>
+              </div>
+            </div>
+            <div class="est-time">21 400 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🎭</div>
+            <div class="est-main">
+              <div class="est-name">Institut Français</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Culture</span>
+              </div>
+            </div>
+            <div class="est-time">19 800 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏊</div>
+            <div class="est-main">
+              <div class="est-name">Hôtel Nomad</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">18 600 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍜</div>
+            <div class="est-main">
+              <div class="est-name">Wok &amp; Roll</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">17 200 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍻</div>
+            <div class="est-main">
+              <div class="est-name">Check-Inn</div>
+              <div class="est-sub">
+                <span class="est-zone">Franceville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Bar</span>
+              </div>
+            </div>
+            <div class="est-time">15 900 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🥐</div>
+            <div class="est-main">
+              <div class="est-name">Paul Gabon</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Boulangerie</span>
+              </div>
+            </div>
+            <div class="est-time">14 700 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏨</div>
+            <div class="est-main">
+              <div class="est-name">Léconi Palace</div>
+              <div class="est-sub">
+                <span class="est-zone">Franceville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">13 200 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">💃</div>
+            <div class="est-main">
+              <div class="est-name">VIP Room</div>
+              <div class="est-sub">
+                <span class="est-zone">Port-Gentil</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Club</span>
+              </div>
+            </div>
+            <div class="est-time">11 900 vues</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="15 établissements à faible trafic">
+        <header class="panel-head">
+          <h2 class="panel-title">Moutons noirs (15)</h2>
+        </header>
+
+        <div class="est-list" role="list">
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">👻</div>
+            <div class="est-main">
+              <div class="est-name">Chez Paulo</div>
+              <div class="est-sub">
+                <span class="est-zone">Owendo</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">0 vue</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🕸️</div>
+            <div class="est-main">
+              <div class="est-name">Hôtel du Silence</div>
+              <div class="est-sub">
+                <span class="est-zone">Bitam</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">2 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏚️</div>
+            <div class="est-main">
+              <div class="est-name">Le Vieux Port</div>
+              <div class="est-sub">
+                <span class="est-zone">Mayumba</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Bar</span>
+              </div>
+            </div>
+            <div class="est-time">5 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍲</div>
+            <div class="est-main">
+              <div class="est-name">Maman Antoinette</div>
+              <div class="est-sub">
+                <span class="est-zone">Tchibanga</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Cuisine locale</span>
+              </div>
+            </div>
+            <div class="est-time">12 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">☕</div>
+            <div class="est-main">
+              <div class="est-name">Cyber Café Plus</div>
+              <div class="est-sub">
+                <span class="est-zone">Koula-Moutou</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Services</span>
+              </div>
+            </div>
+            <div class="est-time">15 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">💤</div>
+            <div class="est-main">
+              <div class="est-name">Auberge Tranquille</div>
+              <div class="est-sub">
+                <span class="est-zone">Mitzic</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">18 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🥗</div>
+            <div class="est-main">
+              <div class="est-name">Le Petit Coin</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Snack</span>
+              </div>
+            </div>
+            <div class="est-time">22 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">📦</div>
+            <div class="est-main">
+              <div class="est-name">Bazar Owendo</div>
+              <div class="est-sub">
+                <span class="est-zone">Owendo</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Boutique</span>
+              </div>
+            </div>
+            <div class="est-time">30 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🚗</div>
+            <div class="est-main">
+              <div class="est-name">Lavage Auto Pro</div>
+              <div class="est-sub">
+                <span class="est-zone">Akanda</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Service</span>
+              </div>
+            </div>
+            <div class="est-time">45 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍞</div>
+            <div class="est-main">
+              <div class="est-name">Boulangerie du Sud</div>
+              <div class="est-sub">
+                <span class="est-zone">Mouila</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Boulangerie</span>
+              </div>
+            </div>
+            <div class="est-time">52 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍦</div>
+            <div class="est-main">
+              <div class="est-name">Glaces Express</div>
+              <div class="est-sub">
+                <span class="est-zone">Libreville</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Snack</span>
+              </div>
+            </div>
+            <div class="est-time">60 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">💈</div>
+            <div class="est-main">
+              <div class="est-name">Coiffure Moderne</div>
+              <div class="est-sub">
+                <span class="est-zone">Port-Gentil</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Beauté</span>
+              </div>
+            </div>
+            <div class="est-time">68 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍍</div>
+            <div class="est-main">
+              <div class="est-name">Fruit Shop</div>
+              <div class="est-sub">
+                <span class="est-zone">Makokou</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Commerce</span>
+              </div>
+            </div>
+            <div class="est-time">75 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🏨</div>
+            <div class="est-main">
+              <div class="est-name">Hôtel la Paix</div>
+              <div class="est-sub">
+                <span class="est-zone">Lambaréné</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Hôtel</span>
+              </div>
+            </div>
+            <div class="est-time">82 vues</div>
+          </article>
+
+          <article class="est-row" role="listitem" tabindex="0">
+            <div class="est-avatar" aria-hidden="true">🍖</div>
+            <div class="est-main">
+              <div class="est-name">Grillade de la Gare</div>
+              <div class="est-sub">
+                <span class="est-zone">Booué</span>
+                <span class="dot">•</span>
+                <span class="est-cat">Resto</span>
+              </div>
+            </div>
+            <div class="est-time">90 vues</div>
+          </article>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <script src="admin_dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+/* ==========================================================================
+    🛡️ MASTERCARTE — ETAB DASHBOARD (V11.9)
+    Bordures Blanches -> Vert | Bouton Appeler reste BLEU
+    ========================================================================== */
+
+/* --- [01] CONFIGURATION DE BASE --- */
+* { 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; 
+}
+
+html, body { 
+    height: 100%; 
+    margin: 0; 
+    background: #000; 
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    background: linear-gradient(135deg, #000000 0%, #0a1e3f 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+/* --- [02] MASTER HEADER FIXE --- */
+.master-header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+    background: linear-gradient(135deg, #000000 0%, #0a1e3f 100%);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
+}
+
+.catalogue-topbar {
+    background: linear-gradient(90deg, #1b3cff 0%, #0a1e3f 100%);
+}
+
+.catalogue-topbar-inner {
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 12px 16px;
+    display: grid; 
+    grid-template-columns: 44px 1fr 44px; 
+    align-items: center;
+}
+
+.btn-back, .btn-sync { 
+    width: 44px; height: 44px; border-radius: 12px; border: none; 
+    background: rgba(0,0,0,0.3); color: white; 
+    display: flex; align-items: center; justify-content: center; 
+    cursor: pointer; transition: all 0.3s ease;
+}
+
+.btn-back:active, .btn-sync:active { transform: scale(0.9); }
+
+.catalogue-title { 
+    margin: 0; text-align: center; font-size: 1rem; font-weight: 800; 
+    letter-spacing: 1px; text-transform: uppercase; 
+}
+
+/* --- [03] TOOLBAR & FILTRAGE --- */
+.catalogue-toolbar {
+    max-width: 1400px; margin: 15px auto 0; padding: 0 20px; position: relative;
+}
+
+.search-wrap {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 16px;
+    background: rgba(14, 14, 14, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+    margin-bottom: 20px;
+}
+
+.search-input { width: 100%; border: none; outline: none; background: transparent; color: #ffffff; font-size: 0.95rem; }
+
+.filters-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap;
+}
+
+.filter-chip {
+    border: none; cursor: pointer; color: #ffffff;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: 14px;
+    background: rgba(14, 14, 14, 0.70);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.results-center { 
+    font-weight: 800; font-size: 0.8rem; color: rgba(255,255,255,0.5); text-transform: uppercase; 
+}
+
+.segmented {
+    display: inline-flex; background: rgba(255, 255, 255, 0.05);
+    padding: 3px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); gap: 4px;
+}
+
+.seg-btn {
+    border: none; cursor: pointer; color: #fff; padding: 8px 16px;
+    border-radius: 9px; background: transparent; font-weight: 700;
+    font-size: 0.7rem; text-transform: uppercase; opacity: 0.4; transition: 0.3s;
+}
+
+.seg-btn.is-active { 
+    background: #1b3cff; opacity: 1; box-shadow: 0 2px 8px rgba(27, 60, 255, 0.4); 
+}
+
+/* --- [04] GRILLE & CONTENEUR --- */
+.catalogue-content {
+    margin-top: 220px;
+    max-width: 1400px; margin-left: auto; margin-right: auto; padding: 0 20px 50px;
+}
+
+#etabGrid {
+    display: grid; gap: 20px; grid-template-columns: repeat(4, 1fr);
+}
+
+/* --- [05] CARTES ETABLISSEMENTS (BORDURE BLANCHE -> VERT) --- */
+.product-card {
+    padding: 18px; 
+    border-radius: 24px; 
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(15px); 
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure Blanche par défaut */
+    display: flex; 
+    flex-direction: column; 
+    gap: 14px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover {
+    border-color: #10b981; /* Passage au vert au survol */
+    background: rgba(16, 185, 129, 0.06);
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15);
+    transform: translateY(-4px);
+}
+
+.product-card.card-disabled { 
+    opacity: 0.5; filter: grayscale(0.8); border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- [06] TRIPLE DIAGNOSTIC & BOUTONS --- */
+.diagnostic-row-inline { 
+    display: flex; align-items: center; justify-content: space-between; gap: 6px; margin: 5px 0;
+}
+
+.diag-badge, .btn-toggle-inline {
+    flex: 1; height: 38px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; border-radius: 10px;
+    font-size: 0.55rem; font-weight: 900; text-transform: uppercase;
+    text-align: center; border: none; color: #fff;
+}
+
+.badge-scans { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+.badge-scans .count { font-size: 1rem; font-family: monospace; line-height: 1; }
+.badge-scans.hot .count { color: #10b981; }
+
+.badge-open { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.3); }
+.badge-closed { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,0.3); }
+
+.btn-toggle-inline { cursor: pointer; transition: all 0.3s ease; }
+.btn-toggle-inline.is-actif { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.5); }
+.btn-toggle-inline.is-inactif { background: #1b3cff; color: #fff; box-shadow: 0 0 12px rgba(27, 60, 255, 0.5); }
+
+.p-name { font-weight: 900; font-size: 1rem; text-transform: uppercase; }
+.p-sub-info { font-size: 0.65rem; font-weight: 800; color: #1b3cff; text-transform: uppercase; } /* Sous-titre reste Bleu MasterCarte */
+
+.card-header { display: flex; align-items: flex-start; gap: 10px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; }
+.status-dot.actif { background: #10b981; box-shadow: 0 0 8px #10b981; }
+.status-dot.inactif { background: #ef4444; }
+
+.gerant-info-box { background: rgba(255,255,255,0.04); padding: 10px; border-radius: 12px; font-size: 0.75rem; color: rgba(255,255,255,0.8); }
+
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-smart { text-decoration: none; display: flex; align-items: center; justify-content: center; border-radius: 10px; height: 48px; }
+
+/* BOUTON APPELER : Dégradé BLEU Original */
+.btn-call { 
+    background: linear-gradient(135deg, #1b3cff 0%, #001db5 100%); 
+    color: white; 
+    flex-direction: column; 
+}
+
+.btn-mail { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); font-size: 0.7rem; font-weight: 800; }
+
+.status-row-admin { margin-top: 5px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+.btn-view-carte { background: none; border: none; color: #1b3cff; font-size: 0.65rem; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+
+/* ✅ NOUVEAU : BOUTON MENU ADMIN (•••) SANS BORDURES */
+.btn-menu-admin {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.05);
+    border: none;
+    color: #888;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.btn-menu-admin:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* --- [07] ALIGNEMENT TRIPLE ACTION (SÉCURISÉ) --- */
+.etab-card-actions {
+    display: flex !important;      /* Force l'alignement horizontal */
+    flex-direction: row !important;
+    gap: 8px;                      /* Espace entre les boutons */
+    margin-top: 10px;
+    width: 100%;
+}
+
+.etab-card-actions .btn-action {
+    flex: 1;                       /* Force chaque bouton à prendre 1/3 de l'espace */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.65rem;            /* Taille réduite pour éviter le débordement */
+    font-weight: 900;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;           /* Empêche le texte de revenir à la ligne */
+}
+
+/* --- [08] COULEURS DES BOUTONS (DYNAMIQUE) --- */
+.btn-tel { 
+    background: #1b3cff !important; 
+    color: white !important; 
+}
+
+.btn-smart { 
+    background: rgba(255,255,255,0.1) !important; 
+    color: white !important; 
+    border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.btn-assist { 
+    background: #000 !important; 
+    color: #D4AF37 !important; 
+    border: 1px solid #D4AF37 !important; 
+}
+
+.btn-action:active { 
+    transform: scale(0.95); 
+}
+
+/* --- [09] RESPONSIVE BREAKPOINTS (CRUCIAL) --- */
+
+/* Écrans larges (Laptops) */
+@media (max-width: 1400px) {
+    #etabGrid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Tablettes (Paysage/Portrait) */
+@media (max-width: 1100px) {
+    #etabGrid { grid-template-columns: repeat(2, 1fr); }
+    .catalogue-content { margin-top: 250px; }
+}
+
+/* Smartphones larges */
+@media (max-width: 768px) {
+    .catalogue-content { margin-top: 330px; padding: 0 15px 40px; }
+    .filters-bar { justify-content: center; }
+}
+
+/* Smartphones standards (Portrait) */
+@media (max-width: 600px) {
+    .catalogue-content { margin-top: 330px; }
+    #etabGrid { grid-template-columns: 1fr; }
+    
+    .catalogue-title { font-size: 0.9rem; }
+    .filter-chip { padding: 8px 12px; font-size: 0.75rem; }
+}
+
+/* Très petits écrans */
+@media (max-width: 380px) {
+    .catalogue-content { margin-top: 330px; }
+    .etab-card-actions .btn-action { font-size: 0.58rem; gap: 4px; }
+}
+
+/* --- [10] SÉCURITÉ SULTAN : INTERDICTION CRÉATION SUR PORTABLE --- */
+@media (max-width: 1024px) {
+    #btnOpenCreate {
+        display: none !important;
+    }
+}
+
+/* --- [11] SECTION MODALE : WIREFRAME PREMIUM (HAUTEUR DÉFINIE) --- */
+.modal-overlay {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); 
+    backdrop-filter: blur(25px); /* Flou profond pour l'élégance */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 3000;
+    
+    /* Gestion de l'apparition pour l'animation */
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Classe à ajouter en JS pour afficher la modale */
+.modal-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: transparent;      
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Blanc subtil pour le contour */
+    padding: 40px; 
+    border-radius: 40px;          
+    width: 90%; 
+    max-width: 400px;
+    height: 600px;                /* Hauteur fixe Sultan */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    
+    /* Animation de montée légère */
+    transform: scale(0.95) translateY(20px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.is-visible .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-separator {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.4) 60%, 
+        transparent 100%);
+    margin-bottom: 10px;
+}
+
+/* --- [12] STYLES DES CHAMPS INTERNES (BLUEPRINT + LISIBILITÉ SELECT) --- */
+.modal-body-fields {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 10px 5px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+/* Scrollbar invisible */
+.modal-body-fields::-webkit-scrollbar {
+    display: none;
+}
+
+.input-blueprint-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-blueprint-group label {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+/* INPUTS ET SELECTS */
+.input-blueprint-group input, 
+.input-blueprint-group select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 8px 0;
+    font-size: 1rem;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+/* ✨ EFFET HOVER (AU SURVOL) */
+.input-blueprint-group input:hover,
+.input-blueprint-group select:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+/* 🔥 EFFET FOCUS (AU CLIC) */
+.input-blueprint-group input:focus,
+.input-blueprint-group select:focus {
+    border-bottom-color: #ffffff;
+}
+
+/* 🍎 GESTION DU MENU DÉROULÉ (LISIBILITÉ) */
+.input-blueprint-group select {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Force le texte noir sur fond blanc quand le menu est ouvert */
+.input-blueprint-group select option {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 10px;
+}
+
+.select-wrapper { 
+    position: relative; 
+    width: 100%; 
+}
+
+.select-caret {
+    position: absolute; 
+    right: 0; 
+    top: 10px;
+    color: rgba(255, 255, 255, 0.3); 
+    font-size: 0.8rem; 
+    pointer-events: none;
+}
+
+/* 📅 STYLES DES PUCES (DAY CHIPS) - MULTI-SÉLECTION */
+.day-selection-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.day-chip {
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    user-select: none;
+    font-weight: 500;
+}
+
+.day-chip:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.day-chip.is-selected {
+    background: #D4AF37; /* Or Sultan */
+    color: #000000;
+    border-color: #D4AF37;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* 🔄 ANIMATIONS (SYNC & POP) */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spinning {
+    animation: spin 0.4s linear infinite !important;
+    transform-origin: center center !important;
+    display: inline-block !important;
+}
+
+@keyframes sultanPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.btn-pop {
+    animation: sultanPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: #D4AF37 !important;
+}
+
+#btnOpenCreate {
+    transition: transform 0.1s ease, color 0.2s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#btnOpenCreate:active {
+    transform: scale(0.8);
+}

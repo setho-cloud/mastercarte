@@ -1,0 +1,193 @@
+/* ==========================================
+   MASTERCARTE — MODULE ACTIONS SECONDAIRES
+   CSS EXCLUSIF : ghost.css (Version Sultan Pro)
+   ========================================== */
+
+:root {
+    --sultan-gold: #D4AF37;
+    --sultan-black: #0a0a0a;
+    --sultan-gray: #1a1a1a;
+    --sultan-text-muted: #666;
+    --sultan-success: #4ade80; /* Le vert du radar */
+    --sultan-alert-blue: #007bff; /* Le bleu de la bordure */
+}
+
+/* Zone de détection laser (Invisible au bord droit) */
+#trigger-ghost {
+    position: fixed;
+    top: 0;
+    right: 0; /* Impératif à 0 pour détecter le survol */
+    width: 15px;
+    height: 100vh;
+    z-index: 9998;
+    background: transparent;
+}
+
+/* Le Panneau Ghost */
+#menu-ghost-sultan {
+    position: fixed;
+    top: 70px;
+    right: -310px; /* Caché par défaut */
+    width: 300px;
+    height: calc(100vh - 70px);
+    background: var(--sultan-black);
+    border-left: 2px solid blue; /* Ta bordure bleue */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -15px 0 45px rgba(0,0,0,0.9);
+    transition: all 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+    color: #ffffff;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* État ouvert (déclenché par le JS) */
+#menu-ghost-sultan.is-open {
+    right: 0;
+}
+
+/* Header & Radar - OPTIMISÉ */
+.ghost-header {
+    padding: 15px 10px 10px;
+    text-align: center;
+    background: linear-gradient(to bottom, #111, var(--sultan-black));
+    border-bottom: 1px solid var(--sultan-gray);
+}
+
+/* Le voyant VERT clignotant */
+.radar-dot {
+    height: 10px;
+    width: 10px;
+    background: var(--sultan-success);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 12px var(--sultan-success);
+    animation: ghostPulse 1.5s infinite ease-in-out;
+    vertical-align: middle;
+}
+
+/* Le titre BLANC */
+.ghost-title {
+    color: #ffffff;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin: 0 0 0 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;  
+}
+
+/* Corps du menu */
+.ghost-body {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sultan-gray) var(--sultan-black);
+}
+
+#radar-status {
+    font-size: 0.65rem;
+    color: var(--sultan-success);
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Design des alertes de Scan */
+.scan-item {
+    background: var(--sultan-gray);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--sultan-success);
+    animation: slideInGhost 0.4s ease-out forwards;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.scan-item.vip {
+    border-left-color: var(--sultan-gold);
+    background: linear-gradient(45deg, #1a1a1a, #221e10);
+}
+
+.ghost-placeholder {
+    text-align: center;
+    margin-top: 30px;
+    color: #333;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* --- AJOUTS MODULE CALIBRAGE GPS --- */
+
+.calibrage-text {
+    font-size: 0.65rem;
+    color: #bbb;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.btn-sultan-action {
+    width: 100%;
+    background: var(--sultan-success);
+    color: #000;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-sultan-action:hover {
+    background: #36b368;
+    transform: translateY(-1px);
+}
+
+.gps-display {
+    display: none; /* JS affichera ce bloc */
+    margin-top: 12px;
+    font-family: monospace;
+    font-size: 0.65rem;
+    color: var(--sultan-success);
+    text-align: center;
+    border: 1px solid #333;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.separator-ghost {
+    border-top: 1px solid var(--sultan-gray);
+    margin: 25px 0;
+    position: relative;
+    text-align: center;
+}
+
+.separator-label {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--sultan-black);
+    padding: 0 10px;
+    font-size: 0.55rem;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+/* Animations */
+@keyframes ghostPulse {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 18px var(--sultan-success); }
+    100% { opacity: 0.3; transform: scale(0.8); }
+}
+
+@keyframes slideInGhost {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
